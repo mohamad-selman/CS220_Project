@@ -1,33 +1,37 @@
 #ifndef HEADER_FILE
 #define HEADER_FILE
 
-typedef struct Node{
-    enum {INT=1, FLT, CHAR, STR} type;
+int numberOfColumns;
+#define MAXWORD 500
 
+typedef struct Node{
     union{
         int i;
         float f;
         char c;
         char *str;
     } data;
-
     int rowNumber;
     struct Node *nextRow;
 } Node;
 
 typedef struct Column{
     char *columnName;
+    enum {INT=1, FLT, CHAR, STR} type; 
     Node *head;
 } Column;
 
-Column * createTable(int c);
-void readNames(Column *table, int c);
+Column * createTable(int n);
+void setColumns(Column *table);
 void freeColumn(Node *head);
-void freeTable(Column *table, int numberOfColumns);
-void insert(Node **head, void *data, int type, int rowNumber);
+void freeTable(Column *table);
+void insert(Column *c, void *data, int rowNumber);
 int numOfRows(Node *head);
-void printRow(Column *table, int NumberOfColumns, FILE *outputFile, int rowIndex);
-void printTable(Column *table, int numberOfColumns, FILE *outputFile);
-Node * select(Column *table, int row, int column);
+int highestRow(Column *table);
+void printRow(Column *table, FILE *outputFile, int rowIndex);
+void printTable(Column *table, FILE *outputFile);
+Node * selectByIndex(Column *table, int row, int column);
+void delete(Column *table, int row, int column);
+Node ** search(Column *table, void *data, int type, int *n);
 
 #endif
