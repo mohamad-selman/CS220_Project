@@ -14,11 +14,14 @@ int numOfRows(Node *head){
     return n;
 }
 
-Node * select(Column *table, int row, int column){
-    column--;
-    Node *current = table[column].head;
-    while(current->rowNumber != row && current->nextRow != NULL){
-        current = current->nextRow;
+int highestRow(Column *table){
+    int highest = -1;
+    for(int i=0; i<numberOfColumns; i++){
+        int t = numOfRows(table[i].head);
+        if(t>highest){
+            highest = t;
+        }
     }
-    return current;
+
+    return highest;
 }
