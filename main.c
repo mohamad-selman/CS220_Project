@@ -4,7 +4,7 @@
 #include "lib.h"
 
 int main(int argc, char *argv[]){
-    FILE *outputFile = fopen("table.txt", "w");
+    FILE *outputFile = fopen("table.csv", "w");
 
     Column *table = createTable(2);
     setColumns(table);
@@ -39,7 +39,7 @@ int main(int argc, char *argv[]){
     //delete(table, 1, 1);
 
     printTable(table, outputFile);
-    puts("Table was printed to the file \"table.txt\"\n");
+    puts("Table was printed to the file \"table.csv\"\n");
 
     freeTable(table);
     fclose(outputFile);
