@@ -1,2 +1,2 @@
 all:
-	gcc main.c functions.c printing.c initializing.c inserting.c -o project
+	gcc main.c functions.c search.c delete.c printing.c initializing.c inserting.c -o project
