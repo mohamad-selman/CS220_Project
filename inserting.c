@@ -3,33 +3,28 @@
 #include <string.h>
 #include "lib.h"
 
-void insert(Node **head, void *data, int type, int rowNumber){
-    if(!(*head)){
-        *head = (Node *)malloc(sizeof(Node));
-
-        switch(type){
+void insert(Column *c, void *data, int rowNumber){
+    Node **temp = &(c->head);
+    while((*temp) != NULL){
+        temp = &((*temp)->nextRow);
+    }
+    *temp = (Node *)malloc(sizeof(Node));
+    
+    switch(c->type){
         case INT:
-            (*head)->data.i = *(int *)data;
-            (*head)->type = INT;
+            (*temp)->data.i = *(int *)data;
             break;
         case FLT:
-            (*head)->data.f = *(float *)data;
-            (*head)->type = FLT;
+            (*temp)->data.f = *(float *)data;
             break;
         case CHAR:
-            (*head)->data.c = *(char *)data;
-            (*head)->type = CHAR;
+            (*temp)->data.c = *(char *)data;
             break;
         case STR:
-            (*head)->data.str = strdup((char *)data);
-            (*head)->type = STR;
+            (*temp)->data.str = strdup((char *)data);
             break;
-        }
-
-        (*head)->rowNumber = rowNumber;
-        (*head)->nextRow = NULL;
     }
-    else{
-        insert(&(*head)->nextRow, data, type, rowNumber);
-    }
+    
+    (*temp)->rowNumber = rowNumber;
+    (*temp)->nextRow = NULL;
 }
