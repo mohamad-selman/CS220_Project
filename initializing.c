@@ -3,23 +3,26 @@
 #include <string.h>
 #include "lib.h"
 
-#define MAXWORD 500
-
-Column * createTable(int c){
-    Column *tempPtr = (Column *)malloc(c * sizeof(Column));
-    for(int i=0; i<c; i++){
+Column * createTable(int n){
+    numberOfColumns = n;
+    Column *tempPtr = (Column *)malloc(n * sizeof(Column));
+    for(int i=0; i<n; i++){
         tempPtr[i].head = NULL;
     }
     return tempPtr;
 }
 
-void readNames(Column *table, int c){
+void setColumns(Column *table){
     puts("");
-    for(int i=0; i<c; i++){
+    for(int i=0; i<numberOfColumns; i++){
         printf("Enter the name of column no. %d: ", i+1);
         char name[MAXWORD];
         scanf("%s", name);
         table[i].columnName = strdup(name);
+        printf("Enter the type (int: 1, float: 2, char: 3, string: 4) of column no. %d: ", i+1);
+        int t;
+        scanf("%d", &t);
+        table[i].type = t;
     }
     puts("");
 }
@@ -33,7 +36,7 @@ void freeColumn(Node *head){
     }
 }
 
-void freeTable(Column *table, int numberOfColumns){
+void freeTable(Column *table){
     for(int i=0; i<numberOfColumns; i++){
         if(table[i].head){
             freeColumn(table[i].head);
