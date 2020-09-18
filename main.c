@@ -6,40 +6,42 @@
 int main(int argc, char *argv[]){
     FILE *outputFile = fopen("table.txt", "w");
 
-    // int c;
-    // printf("Enter the number of columns: ");
-    // scanf("%d", &c);
-
     Column *table = createTable(2);
-    readNames(table, 2);
+    setColumns(table);
+
+    insert(&(table[0]), "A", 1);
+    insert(&(table[0]), "A-", 2);
+    insert(&(table[0]), "B+", 3);
 
     void *p;
-    char charcter;
     int integer;
-
-    charcter = 'A'; p = &charcter;
-    insert(&(table[0].head), p, CHAR, 1);
-
-    
-    insert(&(table[0].head), "A-", STR, 2);
-    insert(&(table[0].head), "B+", STR, 3);
-
     integer = 90; p = &integer;
-    insert(&(table[1].head), p, INT, 2);
+    insert(&(table[1]), p, 2);
 
     integer = 95; p = &integer;
-    insert(&(table[1].head), p, INT, 1);
+    insert(&(table[1]), p, 1);
 
     integer = 60; p = &integer;
-    insert(&(table[1].head), p, INT, 3);
+    insert(&(table[1]), p, 3);
 
-    Node *cell = select(table, 3, 2);
-    cell->data.i = 87;
+    // Node *cell = selectByIndex(table, 3, 2);
+    // cell->data.i = 87;
 
-    printTable(table, 2, outputFile);
-    puts("Table was printed to the file \"Data.txt\"\n");
+    integer = 60; p = &integer;
+    int n=0;
+    Node **x = search(table, p, INT, &n);
+    if(n>0){
+        for(int i=0; i<n; i++){
+            x[i]->data.i = 87;
+        }
+    }
 
-    freeTable(table, 2);
+    //delete(table, 1, 1);
+
+    printTable(table, outputFile);
+    puts("Table was printed to the file \"table.txt\"\n");
+
+    freeTable(table);
     fclose(outputFile);
     return 0;
 }
