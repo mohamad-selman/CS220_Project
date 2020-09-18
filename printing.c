@@ -3,38 +3,45 @@
 #include <string.h>
 #include "lib.h"
 
-void printRow(Column *table, int NumberOfColumns, FILE *outputFile, int rowIndex){
-    for(int i=0; i < NumberOfColumns && table[i].head != NULL; i++){
+void printRow(Column *table, FILE *outputFile, int rowIndex){
+    for(int i=0; i < numberOfColumns; i++){
         Node *current = table[i].head;
-        while(current->rowNumber != rowIndex && current->nextRow != NULL){
+        while(current != NULL){
+            if(current->rowNumber == rowIndex ){
+                switch(table[i].type){
+                    case INT:
+                        fprintf(outputFile, "%d", current->data.i);
+                        break;
+                    case FLT:
+                        fprintf(outputFile, "%f", current->data.f);
+                        break;
+                    case CHAR:
+                        fprintf(outputFile, "%c", current->data.c);
+                        break;
+                    case STR:
+                        fprintf(outputFile, "%s", current->data.str);
+                        break;
+                    }
+            }
             current = current->nextRow;
         }
-
-        switch (current->type){
-        case INT:
-            fprintf(outputFile, "%d\t", current->data.i);
-            break;
-        case FLT:
-            fprintf(outputFile, "%f\t", current->data.f);
-            break;
-        case CHAR:
-            fprintf(outputFile, "%c\t", current->data.c);
-            break;
-        case STR:
-            fprintf(outputFile, "%s\t", current->data.str);
-            break;
-        }   
+        if(i+1 < numberOfColumns){
+            fprintf(outputFile, ",");
+        }
     }
     fprintf(outputFile, "\n");
 }
 
-void printTable(Column *table, int numberOfColumns, FILE *outputFile){
+void printTable(Column *table, FILE *outputFile){
     for(int i=0; i<numberOfColumns; i++){
-        fprintf(outputFile, "%s\t", table[i].columnName);
-    }fprintf(outputFile, "\n\n");
+        fprintf(outputFile, "%s", table[i].columnName);
+        if(i+1 < numberOfColumns){
+            fprintf(outputFile, ",");
+        }
+    }fprintf(outputFile, "\n");
 
-    int n = numOfRows(table[0].head);
+    int n = highestRow(table);
     for(int i=1; i<=n; i++){
-        printRow(table, numberOfColumns, outputFile, i);
+        printRow(table, outputFile, i);
     }
 }
