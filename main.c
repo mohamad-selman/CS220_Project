@@ -33,7 +33,7 @@ int main(int argc, char *argv[]){
                 token = strtok(NULL, ";");
 
                 int ti;
-                double td;
+                float td;
                 switch(table[i].type){
                     case INT:
                         ti = atoi(token);
