@@ -3,6 +3,7 @@
 
 int numberOfColumns;
 #define MAXWORD 500
+#define MAXLINE 1000
 
 typedef struct Node{
     union{
